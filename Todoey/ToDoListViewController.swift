@@ -12,9 +12,15 @@ class ToDoListViewController: UITableViewController {
 
     var itemArray = ["find mike", "buy eggos", "destroy demogorgon"]
     
+    let defaults = UserDefaults.standard
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+
+        if let items = defaults.array(forKey: "toDoListArray") as? [String] {
+            itemArray = items
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -48,6 +54,7 @@ class ToDoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "toDoListArray")
             self.tableView.reloadData()
             
         }
@@ -61,6 +68,7 @@ class ToDoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
         
     }
+    
     
 
 
